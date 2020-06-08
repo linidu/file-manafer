@@ -1,0 +1,7 @@
+amazonProperties:
+  endpointUrl: https://s3.us-east-2.amazonaws.com
+  accessKey: 
+  secretKey: 
+  bucketName: 
+
+spring.http.multipart.maxFileSize: 100MB 

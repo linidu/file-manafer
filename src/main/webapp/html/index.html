@@ -1,0 +1,65 @@
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<script type="text/javascript">
+
+var Path =  window.location.href;
+Path = Path.toString();
+var lastIndex = Path.lastIndexOf("/");
+var contextPath = Path.substring(0, lastIndex);
+
+$(document).ready(function() {
+	$("#img").on("change", uploadImage);
+});
+
+function submitValues() {
+	    
+	$.ajax({
+        processData: false,
+        contentType: false,
+        cache: false,
+        type: "POST",
+        data: new FormData($("#upload-file-form")[0]),
+        enctype: 'multipart/form-data',
+		url: contextPath+"/upload",
+		success: function(result){
+			console.log("SUCCESS....-> ", result);
+			$("#imgurl").val(result);
+			$("#msg").html(result);
+		},
+		error : function(result){
+			console.log("ERROR....-> ", result);
+		}
+	});
+}
+
+function deleteImage() {
+	var imgurl = $("#imgurl").val();
+	$.ajax({        
+        cache: false,
+        type: "GET",
+		url: contextPath+"/delete?imgurl="+imgurl,
+		success: function(result){
+			console.log("SUCCESS....-> ", result);
+			$("#msg").html(result);
+			
+		},
+		error : function(result){
+			console.log("ERROR....-> ", result);
+		}
+	});
+}
+
+</script>
+
+<form id="upload-file-form">
+  <label for="img">Select image:</label>
+  <input type="file" id="img" name="uploadimage" accept="image/*">
+  <input type="button" onclick="submitValues()" value="Upload">
+  <input type="hidden" value="" id="imgurl" name="imgurl">
+  <span id="msg"></span>
+  <input type="button" onclick="deleteImage()" value="Delete Image">
+ 
+  
+</form>
